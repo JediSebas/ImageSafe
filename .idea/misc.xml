@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29438405797101447" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.2595108695652174" />
       </map>
     </option>
   </component>
@@ -11,6 +12,6 @@
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
-    <option name="id" value="Android" />
+    <option name="id" value="jpab" />
   </component>
 </project>

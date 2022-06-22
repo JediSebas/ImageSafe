@@ -8,7 +8,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".MainActivity" >
+    tools:context=".SignUpActivity">
 
     <EditText
         android:id="@+id/loginEt"
@@ -40,14 +40,14 @@
         app:layout_constraintTop_toBottomOf="@+id/loginEt" />
 
     <Button
-        android:id="@+id/signInBtn"
+        android:id="@+id/signUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
         android:enabled="true"
-        android:text="@string/button_sign_in"
+        android:text="@string/button_sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,14 +69,14 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <TextView
-        android:id="@+id/signUpTv"
+        android:id="@+id/infoTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sign_up"
+        android:text="@string/info"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
