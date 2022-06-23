@@ -14,18 +14,24 @@ public class Image {
     @ColumnInfo(name = "userid")
     public int userid;
 
-    public Image(int id, int userid) {
+    @ColumnInfo(name = "file")
+    public String file;
+
+    public Image(int id, int userid, String file) {
         this.id = id;
         this.userid = userid;
+        this.file = file;
     }
 
-    public Image(int userid) {
+    public Image(int userid, String file) {
         this.userid = userid;
+        this.file = file;
     }
 
     public Image(Image image) {
         this.id = image.id;
         this.userid = image.userid;
+        this.file = image.file;
     }
 
     public Image() {
@@ -46,6 +52,14 @@ public class Image {
 
     public int getUserid() {
         return userid;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public String getFile() {
+        return file;
     }
 
     @NonNull
