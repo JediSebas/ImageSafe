@@ -53,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
                     new Thread(() -> {
                         User user = userDao.findByLogin(login);
 
-                        if (user.getPassword().equals(password)) {
+                        if (user != null && user.getPassword().equals(password)) {
                             runOnUiThread(() -> {
-                                // TODO start intent
+                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                startActivity(intent);
                             });
                         } else {
                             runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.wrong), Toast.LENGTH_SHORT).show());
@@ -88,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (log != null && pass != null) {
-            // TODO start intent
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
         }
     }
 }

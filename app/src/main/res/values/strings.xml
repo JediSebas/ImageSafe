@@ -14,4 +14,8 @@
 
     <string name="button_sign_up">Sign up</string>
     <string name="info">Do not forget your login data!</string>
+
+    <string name="browse">Browse photos</string>
+    <string name="add_photos">Add photos</string>
+    <string name="logout">Logout</string>
 </resources>
