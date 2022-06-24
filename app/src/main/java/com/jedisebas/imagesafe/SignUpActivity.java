@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -43,6 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if (user == null) {
                             userDao.insertAll(newUser);
+                            File myDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login);
+                            myDir.mkdir();
                         } else {
                             runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.taken), Toast.LENGTH_SHORT).show());
                         }
