@@ -19,4 +19,7 @@
     <string name="browse">Browse photos</string>
     <string name="add_photos">Add photos</string>
     <string name="logout">Logout</string>
+    <string name="remove">Remove photo from safe</string>
+
+    <string name="content_description">image in safe</string>
 </resources>

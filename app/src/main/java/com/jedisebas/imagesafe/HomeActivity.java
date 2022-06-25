@@ -30,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int IMAGE_PICK_CODE = 1000;
     private String login;
+    private UserDao userDao;
+    private ImageDao imageDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +44,26 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
         login = sessionPrefs.getString(Session.LOGIN_KEY, null);
 
-        browseBtn.setOnClickListener(view -> checkPermission());
+        SafeDatabase db = SafeDatabase.getInstance(this);
+        userDao = db.userDao();
+        imageDao = db.imageDao();
 
-        addPhotosBtn.setOnClickListener(view -> checkPermission());
+        browseBtn.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                checkPermission();
+            } else {
+                Intent intent = new Intent(HomeActivity.this, BrowseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addPhotosBtn.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                checkPermission();
+            } else {
+                pickImageFromGallery();
+            }
+        });
 
         logoutBtn.setOnClickListener(view -> {
 
@@ -61,19 +80,15 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (SDK_INT >= Build.VERSION_CODES.R) {
-                if (!Environment.isExternalStorageManager()) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
-                } else {
-                    ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                }
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
-        } else {
-            pickImageFromGallery();
         }
     }
 
@@ -123,6 +138,12 @@ public class HomeActivity extends AppCompatActivity {
 
                     if (firstFile.renameTo(secondFile)) {
                         Log.println(Log.ASSERT, "file", "File moved");
+
+                        new Thread(() -> {
+                            int id = userDao.findIdByLogin(login);
+                            imageDao.insertAll(new Image(id, newPathFile));
+                        }).start();
+
                         Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show();
                     } else {
                         Log.println(Log.ASSERT, "file", "Moved error");

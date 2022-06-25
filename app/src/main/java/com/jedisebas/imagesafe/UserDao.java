@@ -15,6 +15,9 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE login = :login")
     User findByLogin(String login);
 
+    @Query("SELECT id FROM user WHERE login = :login")
+    int findIdByLogin(String login);
+
     @Insert
     void insertAll(User... users);
 

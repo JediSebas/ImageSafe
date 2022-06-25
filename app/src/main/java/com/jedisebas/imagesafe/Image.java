@@ -68,6 +68,7 @@ public class Image {
         return "Image {" +
                 "\nid = " + id +
                 "\nuserid = " + userid +
+                "\nfile = " + file +
                 "\n}";
     }
 }
