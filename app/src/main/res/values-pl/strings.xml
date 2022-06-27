@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">ImageSafe</string>
+
+    <string name="prompt_login">Login</string>
+    <string name="prompt_password">Hasło</string>
+    <string name="button_sign_in">Zaloguj się</string>
+    <string name="sign_up">Zarejestruj się tutaj</string>
+
+    <string name="not_all">Nie wszystkie dane</string>
+    <string name="wait_sign_up">Rejestrowanie…</string>
+    <string name="wait_sign_in">Logowanie…</string>
+    <string name="taken">Login zajęty</string>
+    <string name="wrong">Zły login lub hasło</string>
+    <string name="success">Zadanie ukończone pomyślnie</string>
+
+    <string name="button_sign_up">Zarejestruj się</string>
+    <string name="info">Nie zapomnij danych logowania!</string>
+
+    <string name="hello">Cześć</string>
+    <string name="browse">Przeglądaj zdjęcia</string>
+    <string name="add_photos">Dodaj zdjęcia</string>
+    <string name="logout">Wyloguj</string>
+    <string name="remove">Usuń zdjęcia z sejfu</string>
+
+    <string name="content_description">zdjęcie w sejfie</string>
+    <string name="title_activity_settings">Ustawienia</string>
+
+    <string name="language_header">Język</string>
+    <string name="language_title">Język aplikacji</string>
+</resources>

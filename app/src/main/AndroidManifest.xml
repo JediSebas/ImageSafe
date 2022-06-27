@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageSafe">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+        <activity
             android:name=".PhotoActivity"
             android:exported="false" />
         <activity

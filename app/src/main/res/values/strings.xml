@@ -16,10 +16,15 @@
     <string name="button_sign_up">Sign up</string>
     <string name="info">Do not forget your login data!</string>
 
+    <string name="hello">Hello</string>
     <string name="browse">Browse photos</string>
     <string name="add_photos">Add photos</string>
     <string name="logout">Logout</string>
     <string name="remove">Remove photo from safe</string>
 
     <string name="content_description">image in safe</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="language_header">Language</string>
+    <string name="language_title">App language</string>
 </resources>
