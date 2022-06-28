@@ -81,24 +81,6 @@ public class HomeActivity extends AppCompatActivity {
         setTitle(getString(R.string.hello) + " " + login);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent intent;
-            intent = new Intent(HomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
     private void checkPermission() {
         if (SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
