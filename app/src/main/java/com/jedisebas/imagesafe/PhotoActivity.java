@@ -35,7 +35,9 @@ public class PhotoActivity extends AppCompatActivity {
             String root = Environment.getExternalStorageDirectory() + "/DCIM/OutOfSafe";
 
             File newDir = new File(root);
-            newDir.mkdir();
+            if (newDir.mkdir()) {
+                Log.println(Log.ASSERT, "mkdir", "directory created");
+            }
 
             File firstFile = new File(gridItem.getPathFile());
             File secondFile = new File(root + "/" + firstFile.getName());

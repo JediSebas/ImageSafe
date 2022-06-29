@@ -19,6 +19,7 @@
     <string name="hello">Hello</string>
     <string name="browse">Browse photos</string>
     <string name="add_photos">Add photos</string>
+    <string name="select_image">Select images</string>
     <string name="logout">Logout</string>
     <string name="remove">Remove photo from safe</string>
 

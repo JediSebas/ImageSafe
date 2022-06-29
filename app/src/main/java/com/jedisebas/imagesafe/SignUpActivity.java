@@ -47,7 +47,9 @@ public class SignUpActivity extends AppCompatActivity {
                         if (user == null) {
                             userDao.insertAll(newUser);
                             File myDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login);
-                            myDir.mkdir();
+                            if (myDir.mkdir()) {
+                                Log.println(Log.ASSERT, "mkdir", "directory created");
+                            }
                         } else {
                             runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.taken), Toast.LENGTH_SHORT).show());
                         }
@@ -63,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         });
 
-        setTitle("Sign Up");
+        setTitle(getString(R.string.button_sign_up));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

@@ -2,12 +2,15 @@ package com.jedisebas.imagesafe;
 
 import static android.os.Build.VERSION.SDK_INT;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -19,8 +22,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -30,11 +31,62 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final int IMAGE_PICK_CODE = 1000;
     private String login;
     private UserDao userDao;
     private ImageDao imageDao;
 
+    final ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    // Handle the Intent
+                    List<Uri> uris = new ArrayList<>();
+
+                    if (data != null) {
+                        ClipData clipData = data.getClipData();
+
+                        if (clipData != null) {
+                            //multiple images selected
+                            for (int i = 0; i < clipData.getItemCount(); i++) {
+                                uris.add(clipData.getItemAt(i).getUri());
+                            }
+                        } else {
+                            //single image selected
+                            uris.add(data.getData());
+                        }
+                    }
+
+                    for (int i=0; i<uris.size(); i++) {
+                        String pathFile = PathUtil.getPath(getBaseContext(), uris.get(i));
+                        if (pathFile != null) {
+                            File firstFile = new File(pathFile);
+
+                            String newPathFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login + "/" + firstFile.getName();
+
+                            File secondFile = new File(newPathFile);
+
+                            if (firstFile.renameTo(secondFile)) {
+                                Log.println(Log.ASSERT, "file", "File moved");
+
+                                new Thread(() -> {
+                                    int id = userDao.findIdByLogin(login);
+                                    imageDao.insertAll(new Image(id, newPathFile));
+                                }).start();
+
+                                Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.println(Log.ASSERT, "file", "Moved error");
+                            }
+
+                            Log.println(Log.ASSERT, "uri", pathFile);
+                            Log.println(Log.ASSERT, "uri", newPathFile);
+                            Log.println(Log.ASSERT, "dir", Environment.getExternalStorageDirectory().getAbsolutePath());
+                        }
+                    }
+                }
+            });
+
+    @SuppressLint("IntentReset")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +115,18 @@ public class HomeActivity extends AppCompatActivity {
             if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 checkPermission();
             } else {
-                pickImageFromGallery();
+                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                getIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                getIntent.setType("image/*");
+
+                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                pickIntent.setType("image/*");
+
+                Intent chooserIntent = Intent.createChooser(getIntent, getString(R.string.select_image));
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+                mStartForResult.launch(chooserIntent);
             }
         });
 
@@ -90,71 +153,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        }
-    }
-
-    @SuppressLint("IntentReset")
-    private void pickImageFromGallery() {
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        getIntent.setType("image/*");
-
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        pickIntent.setType("image/*");
-
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-        startActivityForResult(chooserIntent, IMAGE_PICK_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK) {
-
-            List<Uri> uris = new ArrayList<>();
-            ClipData clipData = data.getClipData();
-
-            if (clipData != null) {
-                //multiple images selected
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    uris.add(clipData.getItemAt(i).getUri());
-                }
-            } else {
-                //single image selected
-                uris.add(data.getData());
-            }
-
-
-            for (int i=0; i<uris.size(); i++) {
-                String pathFile = PathUtil.getPath(getBaseContext(), uris.get(i));
-                if (pathFile != null) {
-                    File firstFile = new File(pathFile);
-
-                    String newPathFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login + "/" + firstFile.getName();
-
-                    File secondFile = new File(newPathFile);
-
-                    if (firstFile.renameTo(secondFile)) {
-                        Log.println(Log.ASSERT, "file", "File moved");
-
-                        new Thread(() -> {
-                            int id = userDao.findIdByLogin(login);
-                            imageDao.insertAll(new Image(id, newPathFile));
-                        }).start();
-
-                        Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.println(Log.ASSERT, "file", "Moved error");
-                    }
-
-                    Log.println(Log.ASSERT, "uri", pathFile);
-                    Log.println(Log.ASSERT, "uri", newPathFile);
-                    Log.println(Log.ASSERT, "dir", Environment.getExternalStorageDirectory().getAbsolutePath());
-                }
             }
         }
     }

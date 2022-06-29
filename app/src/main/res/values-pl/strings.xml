@@ -19,6 +19,7 @@
     <string name="hello">Cześć</string>
     <string name="browse">Przeglądaj zdjęcia</string>
     <string name="add_photos">Dodaj zdjęcia</string>
+    <string name="select_image">Wybierz zdjęcia</string>
     <string name="logout">Wyloguj</string>
     <string name="remove">Usuń zdjęcia z sejfu</string>
 
