@@ -21,7 +21,7 @@
     <string name="add_photos">Dodaj zdjęcia</string>
     <string name="select_image">Wybierz zdjęcia</string>
     <string name="logout">Wyloguj</string>
-    <string name="remove">Usuń zdjęcia z sejfu</string>
+    <string name="remove">Usuń zdjęcie z sejfu</string>
 
     <string name="content_description">zdjęcie w sejfie</string>
     <string name="title_activity_settings">Ustawienia</string>

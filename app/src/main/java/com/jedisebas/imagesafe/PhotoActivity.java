@@ -3,6 +3,9 @@ package com.jedisebas.imagesafe;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -25,10 +28,17 @@ public class PhotoActivity extends AppCompatActivity {
         final ImageView imageView = findViewById(R.id.photoIv);
         final Button removeBtn = findViewById(R.id.removeBtn);
 
+        SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
+        String password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+
         SafeDatabase db = SafeDatabase.getInstance(this);
         ImageDao imageDao = db.imageDao();
 
-        imageView.setImageBitmap(gridItem.getImage());
+        XorCipher xor = new XorCipher();
+        File file = new File(gridItem.getPathFile());
+        byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
+
+        imageView.setImageBitmap(BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length));
 
         removeBtn.setOnClickListener(view -> {
 
@@ -41,6 +51,9 @@ public class PhotoActivity extends AppCompatActivity {
 
             File firstFile = new File(gridItem.getPathFile());
             File secondFile = new File(root + "/" + firstFile.getName());
+
+            byte[] encryptedByteArrayTwo = xor.getEncryptedByteArray(firstFile, password);
+            xor.writeFile(encryptedByteArrayTwo, firstFile);
 
             if (firstFile.renameTo(secondFile)) {
                 Log.println(Log.ASSERT, "file", "File moved");

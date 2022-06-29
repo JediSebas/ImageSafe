@@ -32,6 +32,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private String login;
+    private String password;
     private UserDao userDao;
     private ImageDao imageDao;
 
@@ -65,6 +66,10 @@ public class HomeActivity extends AppCompatActivity {
 
                             File secondFile = new File(newPathFile);
 
+                            XorCipher xor = new XorCipher();
+                            byte[] encryptedByteArray = xor.getEncryptedByteArray(firstFile, password);
+                            xor.writeFile(encryptedByteArray, firstFile);
+
                             if (firstFile.renameTo(secondFile)) {
                                 Log.println(Log.ASSERT, "file", "File moved");
 
@@ -97,6 +102,7 @@ public class HomeActivity extends AppCompatActivity {
         final Button logoutBtn = findViewById(R.id.logoutBtn);
         SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
         login = sessionPrefs.getString(Session.LOGIN_KEY, null);
+        password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
 
         SafeDatabase db = SafeDatabase.getInstance(this);
         userDao = db.userDao();

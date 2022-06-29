@@ -56,7 +56,7 @@ public class BrowseActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        setTitle("Browse photos");
+        setTitle(getString(R.string.browse));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

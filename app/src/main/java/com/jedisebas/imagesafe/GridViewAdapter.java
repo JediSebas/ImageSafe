@@ -1,7 +1,9 @@
 package com.jedisebas.imagesafe;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.util.List;
 
 public class GridViewAdapter extends ArrayAdapter<GridItem> {
@@ -26,10 +29,19 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
         }
 
-        GridItem gridItem = (GridItem) getItem(position);
+        SharedPreferences sessionPrefs = getContext().getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
+        String password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+
+        GridItem gridItem = getItem(position);
         ImageView imageView = convertView.findViewById(R.id.gridImage);
 
-        imageView.setImageBitmap(Bitmap.createScaledBitmap(gridItem.getImage(), 240, 240, false));
+        XorCipher xor = new XorCipher();
+        File file = new File(gridItem.getPathFile());
+        byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
+
+        imageView.setImageBitmap(Bitmap.createScaledBitmap(
+                BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length),
+                240, 240, false));
 
         return convertView;
     }
