@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">ImageSafe</string>
 
     <string name="prompt_login">Login</string>
     <string name="prompt_password">Hasło</string>
@@ -28,4 +27,7 @@
 
     <string name="language_header">Język</string>
     <string name="language_title">Język aplikacji</string>
+
+    <string name="theme_header">Motyw</string>
+    <string name="theme_title">Wybierz motyw</string>
 </resources>

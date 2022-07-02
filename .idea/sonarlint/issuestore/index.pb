@@ -5,16 +5,10 @@ X
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 @
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
-P
- app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
-k
-;app/src/main/java/com/jedisebas/imagesafe/MainActivity.java,c/c/cc439cc531ad5c099fe2009175c3a3b8396f625c
 g
 7app/src/main/java/com/jedisebas/imagesafe/PathUtil.java,b/a/baa94624e6433418587269678a8068132764c54c
 k
 ;app/src/main/java/com/jedisebas/imagesafe/SafeDatabase.java,7/8/78bebc9544716285bb6439c6d27b3d5bfe317443
-f
-6app/src/main/java/com/jedisebas/imagesafe/Session.java,e/7/e7d34bd8257821b0a2b2f67f5c079c9fd92e582d
 m
 =app/src/main/java/com/jedisebas/imagesafe/SignUpActivity.java,0/f/0f8673d03686c2118eda0c66d005e679146e69b3
 c

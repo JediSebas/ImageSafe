@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ImageSafe</string>
+    <string name="app_name" translatable="false">ImageSafe</string>
 
     <string name="prompt_login">Login</string>
     <string name="prompt_password">Password</string>
@@ -28,4 +28,8 @@
 
     <string name="language_header">Language</string>
     <string name="language_title">App language</string>
+
+    <string name="theme_header">Theme</string>
+    <string name="theme_title">Choose theme</string>
+
 </resources>
