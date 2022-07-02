@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class BrowseActivity extends AppCompatActivity {
         SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
         String login = sessionPrefs.getString(Session.LOGIN_KEY, null);
 
-
         List<GridItem> gridItemList = new ArrayList<>();
 
         new Thread(() -> {
@@ -40,7 +40,13 @@ public class BrowseActivity extends AppCompatActivity {
             List<Image> imageList = imageDao.getImageByUserId(id);
 
             for (int i=0; i<imageList.size(); i++) {
-                gridItemList.add(new GridItem(imageList.get(i).getFile()));
+                String pathFile = imageList.get(i).getFile();
+                File file = new File(pathFile);
+                if (file.exists()) {
+                    gridItemList.add(new GridItem(pathFile));
+                } else {
+                    imageDao.delete(imageList.get(i));
+                }
             }
 
             runOnUiThread(() -> {
