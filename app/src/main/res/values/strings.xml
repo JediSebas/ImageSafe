@@ -32,4 +32,10 @@
     <string name="theme_header">Theme</string>
     <string name="theme_title">Choose theme</string>
 
+    <string name="account_header">Account</string>
+    <string name="account_delete_title">Delete account</string>
+    <string name="account_delete_message">Enter password to confirm</string>
+    <string name="wrong_pass">Wrong password</string>
+    <string name="deleting">Deleting account…</string>
+
 </resources>
