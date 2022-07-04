@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private String password;
     private UserDao userDao;
     private ImageDao imageDao;
+    private SharedPreferences sessionPrefs;
 
     final ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -65,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                         if (pathFile != null) {
                             File firstFile = new File(pathFile);
 
-                            String newPathFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login + "/" + firstFile.getName();
+                            String newPathFile = getDir(login) + firstFile.getName();
 
                             File secondFile = new File(newPathFile);
 
@@ -115,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
         final Button browseBtn = findViewById(R.id.browseBtn);
         final Button addPhotosBtn = findViewById(R.id.addBtn);
         final Button logoutBtn = findViewById(R.id.logoutBtn);
-        SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
+        sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
         login = sessionPrefs.getString(Session.LOGIN_KEY, null);
         password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
 
@@ -166,6 +167,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (sessionPrefs.getString(Session.LOGIN_KEY, null) == null &&
+                sessionPrefs.getString(Session.PASSWORD_KEY, null) == null) {
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -194,5 +205,9 @@ public class HomeActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
+    }
+
+    private String getDir(String login) {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login + "/";
     }
 }
