@@ -3,7 +3,7 @@ The app that create a safe for the images stored in phone. Secure solution for h
 
 ## How it works?
 You create your own account and then add images to the secret folder. Your pictures are encrypted so without password nobody can see it.
-I used XOR Cipher to that. Code is in file <a href="https://github.com/JediSebas/ImageSafe/blob/master/app/src/main/java/com/jedisebas/imagesafe/XorCipher.java">XorCipher.java</a>
+I used XOR Cipher to that. Code is in file <a target="_blank" href="https://github.com/JediSebas/ImageSafe/blob/master/app/src/main/java/com/jedisebas/imagesafe/XorCipher.java">XorCipher.java</a>
 
 ## How much is it?
 It's <b>free</b> and <b>without ads</b>.
@@ -21,6 +21,8 @@ It's <b>free</b> and <b>without ads</b>.
 </table>
 
 ## Download
+Check newest release <a target="_blank" href="https://github.com/JediSebas/ImageSafe/releases">here</a>. <br />
+The newest version is 1.0.0 and download apk <a target="_blank" href="https://github.com/JediSebas/ImageSafe/releases/download/v1.0.0/ImageSafe.v1.0.0.apk">here</a>.
 
 ## Screenshots
 
