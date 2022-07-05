@@ -50,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
                             if (myDir.mkdir()) {
                                 Log.println(Log.ASSERT, "mkdir", "directory created");
                             }
+                            runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.success), Toast.LENGTH_SHORT).show());
                         } else {
                             runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.taken), Toast.LENGTH_SHORT).show());
                         }
