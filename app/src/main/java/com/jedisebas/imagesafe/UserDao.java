@@ -18,6 +18,9 @@ public interface UserDao {
     @Query("SELECT id FROM user WHERE login = :login")
     int findIdByLogin(String login);
 
+    @Query("UPDATE User SET email = :email WHERE login = :login")
+    void updateEmail(String email, String login);
+
     @Insert
     void insertAll(User... users);
 

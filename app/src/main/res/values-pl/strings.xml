@@ -9,7 +9,7 @@
     <string name="wait_sign_up">Rejestrowanie…</string>
     <string name="wait_sign_in">Logowanie…</string>
     <string name="taken">Login zajęty</string>
-    <string name="wrong">Zły login lub hasło</string>
+    <string name="wrong">Nieprawidłowy login lub hasło</string>
     <string name="success">Zadanie ukończone pomyślnie</string>
 
     <string name="button_sign_up">Zarejestruj się</string>
@@ -32,9 +32,27 @@
     <string name="theme_title">Wybierz motyw</string>
 
     <string name="account_header">Konto</string>
+
     <string name="account_delete_title">Usuń konto</string>
     <string name="account_delete_message">Wprowadź hasło, aby potwierdzić</string>
+
+    <string name="account_recovery_title">Email odzyskiwania</string>
+    <string name="account_recovery_message">Na ten email zostanie przysłane odzyskane hasło</string>
+
     <string name="wrong_pass">Nieprawidłowe hasło</string>
     <string name="deleting">Usuwanie konta…</string>
+
+    <string name="recover_pass">Odzyskaj hasło</string>
+    <string name="recovery_forgot">Zapomniałeś hasła?</string>
+    <string name="recovery_text">Jeśli wcześniej skonfigurowałeś ustawienia dotyczące przywracania
+        hasła poprzez podanie adresu email, twoje zapomniane hasło zostanie przysłane w powiadomieniu.
+        W przeciwnym wypadku już nie odzyskasz konta.</string>
+    <string name="recover">Odzyskaj</string>
+    <string name="recovery_title">Odzyskiwanie hasła</string>
+
+    <string name="wrong_email">Nieprawidłowy email lub login</string>
+
+    <string name="notification_title">Hejo, mamy twoje hasło</string>
+    <string name="notification_message">Oto twoje zapomniane hasło:</string>
 
 </resources>

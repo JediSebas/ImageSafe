@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageSafe">
         <activity
+            android:name=".RecoverActivity"
+            android:exported="false" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />

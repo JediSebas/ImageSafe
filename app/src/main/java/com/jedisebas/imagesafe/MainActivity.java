@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         final Button signInBtn = findViewById(R.id.signInBtn);
         final ProgressBar progressBar = findViewById(R.id.loading);
         final TextView signUp = findViewById(R.id.signUpTv);
+        final TextView recover = findViewById(R.id.recoverTv);
         SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
         log = sessionPrefs.getString(Session.LOGIN_KEY, null);
         pass = sessionPrefs.getString(Session.PASSWORD_KEY, null);
@@ -71,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                                 startActivity(intent);
                             });
+
+                            SharedPreferences.Editor editor = sessionPrefs.edit();
+                            editor.putString(Session.LOGIN_KEY, login);
+                            editor.putString(Session.PASSWORD_KEY, password);
+                            editor.putString(Session.EMAIL_KEY, user.getEmail());
+                            editor.apply();
+
                         } else {
                             runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.wrong), Toast.LENGTH_SHORT).show());
                         }
@@ -79,14 +87,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.println(Log.ASSERT, "all", String.valueOf(userDao.getAll()));
                     }).start();
 
-                    SharedPreferences.Editor editor = sessionPrefs.edit();
-                    editor.putString(Session.LOGIN_KEY, login);
-                    editor.putString(Session.PASSWORD_KEY, password);
-                    editor.apply();
-
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             }
             progressBar.setVisibility(View.GONE);
@@ -94,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
         signUp.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
+
+        recover.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, RecoverActivity.class);
             startActivity(intent);
         });
     }

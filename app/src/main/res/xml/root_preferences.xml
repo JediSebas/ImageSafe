@@ -16,11 +16,19 @@
     <PreferenceCategory app:title="@string/account_header">
 
         <EditTextPreference
+            android:key="recovery"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/account_recovery_title"
+            android:summary="@string/account_recovery_message"
+            android:dialogMessage="@string/account_recovery_message" />
+
+        <EditTextPreference
             android:key="account_delete"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/account_delete_title"
-            android:dialogMessage="@string/account_delete_message"/>
+            android:dialogMessage="@string/account_delete_message" />
 
     </PreferenceCategory>
 </PreferenceScreen>

@@ -16,6 +16,16 @@ public class User {
     @ColumnInfo(name = "password")
     private String password;
 
+    @ColumnInfo(name = "email")
+    private String email;
+
+    public User(int id, String login, String password, String email) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+    }
+
     public User(int id, String login, String password) {
         this.id = id;
         this.login = login;
@@ -31,6 +41,7 @@ public class User {
         this.id = user.id;
         this.login = user.login;
         this.password = user.password;
+        this.email = user.email;
     }
 
     public User() {
@@ -61,6 +72,14 @@ public class User {
         return password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -68,6 +87,7 @@ public class User {
                 "\nid = " + id +
                 "\nlogin = " + login +
                 "\npassword = " + password +
+                "\nemail = " + email +
                 "\n}";
     }
 }

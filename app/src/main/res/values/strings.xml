@@ -5,6 +5,7 @@
     <string name="prompt_password">Password</string>
     <string name="button_sign_in">Sign in</string>
     <string name="sign_up">Sign up here</string>
+    <string name="prompt_email" translatable="false">Email</string>
 
     <string name="not_all">Not all data</string>
     <string name="wait_sign_up">Signing up…</string>
@@ -33,9 +34,25 @@
     <string name="theme_title">Choose theme</string>
 
     <string name="account_header">Account</string>
+
     <string name="account_delete_title">Delete account</string>
     <string name="account_delete_message">Enter password to confirm</string>
+
+    <string name="account_recovery_title">Recovery email</string>
+    <string name="account_recovery_message">This email would be used to recover password</string>
+
     <string name="wrong_pass">Wrong password</string>
     <string name="deleting">Deleting account…</string>
+
+    <string name="recover_pass">Recover password</string>
+    <string name="recovery_forgot">Forgot password?</string>
+    <string name="recovery_text">If you have previously configured the restore related settings password by entering your e-mail address, the forgotten password will be sent in the notification. Otherwise, you won\'t be able to recover your account.</string>
+    <string name="recover">Recover</string>
+    <string name="recovery_title">Recovery password</string>
+
+    <string name="wrong_email">Wrong email or login</string>
+
+    <string name="notification_title">Hello, we have your password</string>
+    <string name="notification_message">Your forgotten password is:</string>
 
 </resources>

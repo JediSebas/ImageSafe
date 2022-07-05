@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.21926910299003322" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29438405797101447" />
         <entry key="app/src/main/res/layout/activity_photo.xml" value="0.3536458333333333" />
+        <entry key="app/src/main/res/layout/activity_recover.xml" value="0.3536458333333333" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.2595108695652174" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.27898550724637683" />
@@ -14,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.27898550724637683" />
         <entry key="app/src/main/res/layout/grid_item.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/photo_include.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/recover_include.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/settings_activity.xml" value="0.184375" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.3536458333333333" />

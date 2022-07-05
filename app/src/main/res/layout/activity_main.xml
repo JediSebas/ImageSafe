@@ -79,4 +79,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInBtn" />
 
+    <TextView
+        android:id="@+id/recoverTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/recover_pass"
+        app:layout_constraintStart_toStartOf="@+id/passwordEt"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
