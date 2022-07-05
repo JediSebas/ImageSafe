@@ -56,7 +56,7 @@ public class RecoverActivity extends AppCompatActivity {
                     notificationManager.notify(1, builder.build());
 
                 } else {
-                    runOnUiThread(() -> Toast.makeText(this, getString(R.string.wrong), Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(this, getString(R.string.wrong_email), Toast.LENGTH_SHORT).show());
                 }
             }).start();
         });

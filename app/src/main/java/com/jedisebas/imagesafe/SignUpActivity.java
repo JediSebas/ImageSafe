@@ -24,6 +24,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         final EditText loginEt = findViewById(R.id.loginEt);
         final EditText passwordEt = findViewById(R.id.passwordEt);
+        final EditText repeatEt = findViewById(R.id.repeatEt);
         final Button signUpBtn = findViewById(R.id.signUpBtn);
         final ProgressBar progressBar = findViewById(R.id.loading);
 
@@ -34,9 +35,11 @@ public class SignUpActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             String login = loginEt.getText().toString().trim();
             String password = passwordEt.getText().toString().trim();
-            if (login.isEmpty() || password.isEmpty()) {
+            String password2 = repeatEt.getText().toString().trim();
+            
+            if (login.isEmpty() || password.isEmpty() || password2.isEmpty()) {
                 Toast.makeText(this, getString(R.string.not_all), Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (password.equals(password2)){
                 Toast.makeText(this, getString(R.string.wait_sign_up), Toast.LENGTH_SHORT).show();
                 try {
 
@@ -62,6 +65,8 @@ public class SignUpActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else {
+                Toast.makeText(this, getString(R.string.do_not_match), Toast.LENGTH_SHORT).show();
             }
             progressBar.setVisibility(View.GONE);
         });

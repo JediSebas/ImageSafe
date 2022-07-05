@@ -29,8 +29,6 @@ P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 k
 ;app/src/main/java/com/jedisebas/imagesafe/MainActivity.java,c/c/cc439cc531ad5c099fe2009175c3a3b8396f625c
-n
->app/src/main/java/com/jedisebas/imagesafe/RecoverActivity.java,f/f/ff6db4706fae56309edbaa7729f3e1c554b32a05
 f
 6app/src/main/java/com/jedisebas/imagesafe/Session.java,e/7/e7d34bd8257821b0a2b2f67f5c079c9fd92e582d
 o
