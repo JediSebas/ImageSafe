@@ -1,9 +1,12 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.jedisebas.imagesafe.entity.Image;
+
 import java.util.List;
 
 @Dao

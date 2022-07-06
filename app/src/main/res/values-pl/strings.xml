@@ -55,6 +55,6 @@
     <string name="wrong_email">Nieprawidłowy email lub login</string>
 
     <string name="notification_title">Hejo, mamy twoje hasło</string>
-    <string name="notification_message">Oto twoje zapomniane hasło:</string>
+    <string name="notification_message">Oto twoje zapomniane hasło: %s</string>
 
 </resources>

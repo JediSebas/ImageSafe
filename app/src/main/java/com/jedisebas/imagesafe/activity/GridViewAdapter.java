@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.XorCipher;
 
 import java.io.File;
 import java.util.List;
@@ -29,8 +32,8 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
         }
 
-        SharedPreferences sessionPrefs = getContext().getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-        String password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+        SharedPreferences sessionPrefs = getContext().getSharedPreferences(getContext().getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        String password = sessionPrefs.getString(getContext().getString(R.string.password_key), null);
 
         GridItem gridItem = getItem(position);
         ImageView imageView = convertView.findViewById(R.id.gridImage);

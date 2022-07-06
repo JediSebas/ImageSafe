@@ -20,26 +20,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageSafe">
         <activity
-            android:name=".RecoverActivity"
+            android:name=".activity.RecoverActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".PhotoActivity"
+            android:name=".activity.PhotoActivity"
             android:exported="false" />
         <activity
-            android:name=".BrowseActivity"
+            android:name=".activity.BrowseActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".activity.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activity.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

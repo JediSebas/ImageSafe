@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.SafeDatabase;
+import com.jedisebas.imagesafe.util.XorCipher;
+import com.jedisebas.imagesafe.dao.ImageDao;
+import com.jedisebas.imagesafe.entity.Image;
+
 import java.io.File;
 
 public class PhotoActivity extends AppCompatActivity {
@@ -28,8 +34,8 @@ public class PhotoActivity extends AppCompatActivity {
         final ImageView imageView = findViewById(R.id.photoIv);
         final Button removeBtn = findViewById(R.id.removeBtn);
 
-        SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-        String password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+        SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        String password = sessionPrefs.getString(getString(R.string.password_key), null);
 
         SafeDatabase db = SafeDatabase.getInstance(this);
         ImageDao imageDao = db.imageDao();
@@ -41,7 +47,6 @@ public class PhotoActivity extends AppCompatActivity {
         imageView.setImageBitmap(BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length));
 
         removeBtn.setOnClickListener(view -> {
-
             String root = Environment.getExternalStorageDirectory() + "/DCIM/OutOfSafe";
 
             File newDir = new File(root);
@@ -50,7 +55,7 @@ public class PhotoActivity extends AppCompatActivity {
             }
 
             File firstFile = new File(gridItem.getPathFile());
-            File secondFile = new File(root + "/" + firstFile.getName());
+            File secondFile = new File(addFileToDirectory(root, firstFile.getName()));
 
             byte[] encryptedByteArrayTwo = xor.getEncryptedByteArray(firstFile, password);
             xor.writeFile(encryptedByteArrayTwo, firstFile);
@@ -84,5 +89,9 @@ public class PhotoActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String addFileToDirectory(String directory, String fileName) {
+        return directory + "/" + fileName;
     }
 }

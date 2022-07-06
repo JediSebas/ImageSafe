@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.util;
 
 import android.util.Log;
 
@@ -9,9 +9,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 
 public class XorCipher {
-
-    XorCipher() {
-    }
 
     public int keyFromString(String key) {
         int newKey = 0;
@@ -24,13 +21,9 @@ public class XorCipher {
     }
 
     public byte[] getEncryptedByteArray(File file, int key) {
-
-        byte[] byteArray;
-        byte[] encryptedArray;
-
         try {
-            byteArray = Files.readAllBytes(file.toPath());
-            encryptedArray = new byte[byteArray.length];
+            byte[] byteArray = Files.readAllBytes(file.toPath());
+            byte[] encryptedArray = new byte[byteArray.length];
 
             for (int i=0; i<byteArray.length; i++) {
                 encryptedArray[i] = (byte) (byteArray[i] ^ key);
@@ -40,20 +33,14 @@ public class XorCipher {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return new byte[0];
     }
 
     public byte[] getEncryptedByteArray(File file, String key) {
-
-        int keyInt = keyFromString(key);
-
-        byte[] byteArray;
-        byte[] encryptedArray;
-
         try {
-            byteArray = Files.readAllBytes(file.toPath());
-            encryptedArray = new byte[byteArray.length];
+            int keyInt = keyFromString(key);
+            byte[] byteArray = Files.readAllBytes(file.toPath());
+            byte[] encryptedArray = new byte[byteArray.length];
 
             for (int i=0; i<byteArray.length; i++) {
                 encryptedArray[i] = (byte) (byteArray[i] ^ keyInt);

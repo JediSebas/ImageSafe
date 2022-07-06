@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,10 +10,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.SafeDatabase;
+import com.jedisebas.imagesafe.dao.ImageDao;
+import com.jedisebas.imagesafe.dao.UserDao;
+import com.jedisebas.imagesafe.entity.Image;
+import com.jedisebas.imagesafe.entity.User;
+import com.jedisebas.imagesafe.util.ThemeUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -60,18 +67,12 @@ public class SettingsActivity extends AppCompatActivity {
             if (listPreference != null) {
                 listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
 
-                    SharedPreferences themePrefs = requireContext().getSharedPreferences(Session.THEME_PREFS, Context.MODE_PRIVATE);
+                    SharedPreferences themePrefs = requireContext().getSharedPreferences(getString(R.string.THEME_PREFS), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = themePrefs.edit();
-                    editor.putString(Session.THEME_KEY, String.valueOf(newValue));
+                    editor.putString(getString(R.string.theme_key), String.valueOf(newValue));
                     editor.apply();
 
-                    if ("default".equals(newValue)) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                    } else if ("dark".equals(newValue)) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    } else if ("light".equals(newValue)) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    }
+                    new ThemeUtil(String.valueOf(newValue));
 
                     return true;
                 });
@@ -80,31 +81,25 @@ public class SettingsActivity extends AppCompatActivity {
             if (editTextPreference != null) {
                 editTextPreference.setText("");
                 editTextPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-
-                    editTextPreference.setText("");
-
                     deleteAccount(newValue);
-
-                    editTextPreference.setText("");
-
                     return true;
                 });
             }
 
             if (recoveryPreference != null) {
 
-                SharedPreferences sessionPrefs = requireContext().getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-                recoveryPreference.setText(sessionPrefs.getString(Session.EMAIL_KEY, ""));
+                SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                recoveryPreference.setText(sessionPrefs.getString(getString(R.string.email_key), ""));
 
                 recoveryPreference.setOnPreferenceChangeListener((preference, newValue) -> {
 
                     SafeDatabase db = SafeDatabase.getInstance(requireContext());
                     UserDao userDao = db.userDao();
 
-                    new Thread(() -> userDao.updateEmail(String.valueOf(newValue), sessionPrefs.getString(Session.LOGIN_KEY, null))).start();
+                    new Thread(() -> userDao.updateEmail(String.valueOf(newValue), sessionPrefs.getString(getString(R.string.login_key), null))).start();
 
                     SharedPreferences.Editor editor = sessionPrefs.edit();
-                    editor.putString(Session.EMAIL_KEY, String.valueOf(newValue));
+                    editor.putString(getString(R.string.email_key), String.valueOf(newValue));
                     editor.apply();
 
                     return true;
@@ -114,9 +109,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         private void deleteAccount(Object newValue) {
 
-            SharedPreferences sessionPrefs = requireContext().getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-            String login = sessionPrefs.getString(Session.LOGIN_KEY, null);
-            String password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+            SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+            String login = sessionPrefs.getString(getString(R.string.login_key), null);
+            String password = sessionPrefs.getString(getString(R.string.password_key), null);
 
             SafeDatabase db = SafeDatabase.getInstance(requireContext());
             UserDao userDao = db.userDao();
@@ -130,17 +125,17 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply();
 
                 Log.println(Log.ASSERT, "prefs",
-                        sessionPrefs.getString(Session.LOGIN_KEY, null) + " " +
-                                sessionPrefs.getString(Session.PASSWORD_KEY, null));
+                        sessionPrefs.getString(getString(R.string.login_key), null) + " " +
+                                sessionPrefs.getString(getString(R.string.password_key), null));
 
                 new Thread(() -> {
                     User user = userDao.findByLogin(login);
                     List<Image> imageList = imageDao.getImageByUserId(user.getId());
 
-                    for (int i=0; i<imageList.size(); i++) {
+                    for (Image image: imageList) {
                         try {
-                            Files.delete(Paths.get(imageList.get(i).getFile()));
-                            imageDao.delete(imageList.get(i));
+                            Files.delete(Paths.get(image.getFile()));
+                            imageDao.delete(image);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

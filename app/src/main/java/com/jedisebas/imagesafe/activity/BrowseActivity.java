@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.SafeDatabase;
+import com.jedisebas.imagesafe.dao.ImageDao;
+import com.jedisebas.imagesafe.dao.UserDao;
+import com.jedisebas.imagesafe.entity.Image;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,8 +36,8 @@ public class BrowseActivity extends AppCompatActivity {
         UserDao userDao = db.userDao();
         ImageDao imageDao = db.imageDao();
 
-        SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-        String login = sessionPrefs.getString(Session.LOGIN_KEY, null);
+        SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        String login = sessionPrefs.getString(getString(R.string.login_key), null);
 
         List<GridItem> gridItemList = new ArrayList<>();
 
@@ -39,7 +45,7 @@ public class BrowseActivity extends AppCompatActivity {
             int id = userDao.findIdByLogin(login);
             List<Image> imageList = imageDao.getImageByUserId(id);
 
-            for (int i=0; i<imageList.size(); i++) {
+            for (int i = 0; i < imageList.size(); i++) {
                 String pathFile = imageList.get(i).getFile();
                 File file = new File(pathFile);
                 if (file.exists()) {
@@ -57,9 +63,8 @@ public class BrowseActivity extends AppCompatActivity {
         }).start();
 
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(BrowseActivity.this, PhotoActivity.class);
             PhotoActivity.gridItem = (GridItem) adapterView.getItemAtPosition(i);
-            startActivity(intent);
+            startActivity(new Intent(this, PhotoActivity.class));
         });
 
         setTitle(getString(R.string.browse));

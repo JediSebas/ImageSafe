@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

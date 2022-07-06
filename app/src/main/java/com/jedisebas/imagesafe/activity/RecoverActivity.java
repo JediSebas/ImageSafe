@@ -1,4 +1,4 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.SafeDatabase;
+import com.jedisebas.imagesafe.dao.UserDao;
+import com.jedisebas.imagesafe.entity.User;
 
 public class RecoverActivity extends AppCompatActivity {
 
@@ -45,9 +50,9 @@ public class RecoverActivity extends AppCompatActivity {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                             .setSmallIcon(R.drawable.ic_launcher_background)
                             .setContentTitle(getString(R.string.notification_title))
-                            .setContentText(getString(R.string.notification_message) + " " + user.getPassword())
+                            .setContentText(getString(R.string.notification_message, user.getPassword()))
                             .setStyle(new NotificationCompat.BigTextStyle()
-                                    .bigText(getString(R.string.notification_message) + " " + user.getPassword()))
+                                    .bigText(getString(R.string.notification_message, user.getPassword())))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(pendingIntent)
                             .setAutoCancel(true);

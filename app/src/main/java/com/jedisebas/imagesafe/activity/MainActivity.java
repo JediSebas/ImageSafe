@@ -1,7 +1,6 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.SafeDatabase;
+import com.jedisebas.imagesafe.dao.UserDao;
+import com.jedisebas.imagesafe.entity.User;
+import com.jedisebas.imagesafe.util.ThemeUtil;
+
 public class MainActivity extends AppCompatActivity {
 
     private String log;
@@ -23,18 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences themePrefs = getSharedPreferences(Session.THEME_PREFS, Context.MODE_PRIVATE);
-        String theme = themePrefs.getString(Session.THEME_KEY, "default");
-
-        if ("default".equals(theme)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        } else if ("dark".equals(theme)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else if ("light".equals(theme)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
+        new ThemeUtil(this);
         setContentView(R.layout.activity_main);
 
         final EditText loginEt = findViewById(R.id.loginEt);
@@ -43,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progressBar = findViewById(R.id.loading);
         final TextView signUp = findViewById(R.id.signUpTv);
         final TextView recover = findViewById(R.id.recoverTv);
-        SharedPreferences sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-        log = sessionPrefs.getString(Session.LOGIN_KEY, null);
-        pass = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+        SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        log = sessionPrefs.getString(getString(R.string.login_key), null);
+        pass = sessionPrefs.getString(getString(R.string.password_key), null);
 
         signUp.getPaint().setUnderlineText(true);
 
@@ -68,15 +62,12 @@ public class MainActivity extends AppCompatActivity {
                         User user = userDao.findByLogin(login);
 
                         if (user != null && user.getPassword().equals(password)) {
-                            runOnUiThread(() -> {
-                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                            });
+                            runOnUiThread(() -> startActivity(new Intent(this, HomeActivity.class)));
 
                             SharedPreferences.Editor editor = sessionPrefs.edit();
-                            editor.putString(Session.LOGIN_KEY, login);
-                            editor.putString(Session.PASSWORD_KEY, password);
-                            editor.putString(Session.EMAIL_KEY, user.getEmail());
+                            editor.putString(getString(R.string.login_key), login);
+                            editor.putString(getString(R.string.password_key), password);
+                            editor.putString(getString(R.string.email_key), user.getEmail());
                             editor.apply();
 
                         } else {
@@ -94,23 +85,16 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         });
 
-        signUp.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-            startActivity(intent);
-        });
+        signUp.setOnClickListener(view -> startActivity(new Intent(this, SignUpActivity.class)));
 
-        recover.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, RecoverActivity.class);
-            startActivity(intent);
-        });
+        recover.setOnClickListener(view -> startActivity(new Intent(this, RecoverActivity.class)));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         if (log != null && pass != null) {
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, HomeActivity.class));
         }
     }
 }

@@ -1,9 +1,14 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.util;
 
 import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.jedisebas.imagesafe.dao.ImageDao;
+import com.jedisebas.imagesafe.dao.UserDao;
+import com.jedisebas.imagesafe.entity.Image;
+import com.jedisebas.imagesafe.entity.User;
 
 @Database(entities = {User.class, Image.class}, version = 1, exportSchema = false)
 public abstract class SafeDatabase extends RoomDatabase {

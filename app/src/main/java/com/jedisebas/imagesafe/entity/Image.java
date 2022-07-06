@@ -1,9 +1,11 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.util.Objects;
 
 @Entity(tableName = "image")
 public class Image {
@@ -24,18 +26,15 @@ public class Image {
     }
 
     public Image(int userid, String file) {
-        this.userid = userid;
-        this.file = file;
+        this(0, userid, file);
     }
 
     public Image(Image image) {
-        this.id = image.id;
-        this.userid = image.userid;
-        this.file = image.file;
+        this(image.id, image.userid, image.file);
     }
 
     public Image() {
-
+        this(0, null);
     }
 
     public void setId(int id) {
@@ -70,5 +69,31 @@ public class Image {
                 "\nuserid = " + userid +
                 "\nfile = " + file +
                 "\n}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (!(obj instanceof Image)) {
+            return false;
+        }
+
+        final Image image = (Image) obj;
+
+        return Objects.equals(this.file, image.file);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 13;
+
+        hash = 17 * hash + id;
+        hash = 17 * hash + userid;
+        hash = 17 * hash + file.hashCode();
+
+        return hash;
     }
 }

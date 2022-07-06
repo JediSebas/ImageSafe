@@ -1,11 +1,10 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.activity;
 
 import static android.os.Build.VERSION.SDK_INT;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -27,6 +26,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.jedisebas.imagesafe.util.PathUtil;
+import com.jedisebas.imagesafe.R;
+import com.jedisebas.imagesafe.util.SafeDatabase;
+import com.jedisebas.imagesafe.util.ThemeUtil;
+import com.jedisebas.imagesafe.util.XorCipher;
+import com.jedisebas.imagesafe.dao.ImageDao;
+import com.jedisebas.imagesafe.dao.UserDao;
+import com.jedisebas.imagesafe.entity.Image;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
 
-                    for (int i=0; i<uris.size(); i++) {
+                    for (int i = 0; i < uris.size(); i++) {
                         String pathFile = PathUtil.getPath(getBaseContext(), uris.get(i));
                         if (pathFile != null) {
                             File firstFile = new File(pathFile);
@@ -99,42 +107,30 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences themePrefs = getSharedPreferences(Session.THEME_PREFS, Context.MODE_PRIVATE);
-        String theme = themePrefs.getString(Session.THEME_KEY, "default");
-
-        if ("default".equals(theme)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        } else if ("dark".equals(theme)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else if ("light".equals(theme)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
+        new ThemeUtil(this);
         setContentView(R.layout.activity_home);
 
         final Button browseBtn = findViewById(R.id.browseBtn);
         final Button addPhotosBtn = findViewById(R.id.addBtn);
         final Button logoutBtn = findViewById(R.id.logoutBtn);
-        sessionPrefs = getSharedPreferences(Session.SHARED_PREFS, Context.MODE_PRIVATE);
-        login = sessionPrefs.getString(Session.LOGIN_KEY, null);
-        password = sessionPrefs.getString(Session.PASSWORD_KEY, null);
+        sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        login = sessionPrefs.getString(getString(R.string.login_key), null);
+        password = sessionPrefs.getString(getString(R.string.password_key), null);
 
         SafeDatabase db = SafeDatabase.getInstance(this);
         userDao = db.userDao();
         imageDao = db.imageDao();
 
         browseBtn.setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 checkPermission();
             } else {
-                Intent intent = new Intent(HomeActivity.this, BrowseActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, BrowseActivity.class));
             }
         });
 
         addPhotosBtn.setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 checkPermission();
             } else {
                 Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -158,8 +154,7 @@ public class HomeActivity extends AppCompatActivity {
             editor.clear();
             editor.apply();
 
-            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         });
 
@@ -169,10 +164,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (sessionPrefs.getString(Session.LOGIN_KEY, null) == null &&
-                sessionPrefs.getString(Session.PASSWORD_KEY, null) == null) {
-            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-            startActivity(intent);
+        if (sessionPrefs.getString(getString(R.string.login_key), null) == null &&
+                sessionPrefs.getString(getString(R.string.password_key), null) == null) {
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
@@ -180,9 +174,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent intent;
-            intent = new Intent(HomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -202,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
                 intent.setData(uri);
                 startActivity(intent);
             } else {
-                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
     }

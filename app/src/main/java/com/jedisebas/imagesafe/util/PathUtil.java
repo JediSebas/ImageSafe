@@ -1,4 +1,6 @@
-package com.jedisebas.imagesafe;
+package com.jedisebas.imagesafe.util;
+
+import static android.provider.MediaStore.MediaColumns.DATA;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
@@ -10,9 +12,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 public class PathUtil {
-    /*
-     * Gets the file path of the given Uri.
-     */
 
     private PathUtil() {
     }
@@ -48,15 +47,16 @@ public class PathUtil {
             }
         }
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { MediaStore.Images.Media.DATA };
+            String[] projection = { DATA };
             Cursor cursor;
             try {
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                int columnIndex = cursor.getColumnIndexOrThrow(DATA);
                 if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
+                    return cursor.getString(columnIndex);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
