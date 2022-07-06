@@ -28,24 +28,35 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
+        View view = convertView;
+        ViewHolder holder;
+
+        if (view == null) {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
+            holder = new ViewHolder();
+            holder.imageView = view.findViewById(R.id.gridImage);
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
 
         SharedPreferences sessionPrefs = getContext().getSharedPreferences(getContext().getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         String password = sessionPrefs.getString(getContext().getString(R.string.password_key), null);
 
         GridItem gridItem = getItem(position);
-        ImageView imageView = convertView.findViewById(R.id.gridImage);
 
         XorCipher xor = new XorCipher();
         File file = new File(gridItem.getPathFile());
         byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
 
-        imageView.setImageBitmap(Bitmap.createScaledBitmap(
+        holder.imageView.setImageBitmap(Bitmap.createScaledBitmap(
                 BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length),
                 240, 240, false));
 
-        return convertView;
+        return view;
+    }
+
+    static class ViewHolder {
+        ImageView imageView;
     }
 }
