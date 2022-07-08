@@ -21,22 +21,22 @@ public class User {
     @ColumnInfo(name = "email")
     private String email;
 
-    public User(int id, String login, String password, String email) {
+    public User(final int id, final String login, final String password, final String email) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
     }
 
-    public User(int id, String login, String password) {
+    public User(final int id, final String login, final String password) {
         this(id, login, password, null);
     }
 
-    public User(String login, String password) {
+    public User(final String login, final String password) {
         this(0, login, password, null);
     }
 
-    public User(User user) {
+    public User(final User user) {
         this(user.id, user.login, user.password, user.email);
     }
 
@@ -44,7 +44,7 @@ public class User {
         this(null, null);
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -52,7 +52,7 @@ public class User {
         return id;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(final String login) {
         this.login = login;
     }
 
@@ -60,7 +60,7 @@ public class User {
         return login;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -68,7 +68,7 @@ public class User {
         return password;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -88,7 +88,7 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }

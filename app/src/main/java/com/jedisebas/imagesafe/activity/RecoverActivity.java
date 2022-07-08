@@ -23,7 +23,7 @@ public class RecoverActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "12";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createNotificationChannel();
         setContentView(R.layout.activity_recover);

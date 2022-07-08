@@ -9,18 +9,18 @@ import com.jedisebas.imagesafe.R;
 
 public class ThemeUtil {
 
-    public ThemeUtil(Context context) {
+    public ThemeUtil(final Context context) {
         final SharedPreferences themePrefs = context.getSharedPreferences(context.getString(R.string.THEME_PREFS), Context.MODE_PRIVATE);
         final String theme = themePrefs.getString(context.getString(R.string.theme_key), "default");
 
         checkTheme(theme);
     }
 
-    public ThemeUtil(String value) {
+    public ThemeUtil(final String value) {
         checkTheme(value);
     }
 
-    void checkTheme(String value) {
+    void checkTheme(final String value) {
         if ("default".equals(value)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         } else if ("dark".equals(value)) {

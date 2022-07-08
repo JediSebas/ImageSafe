@@ -27,7 +27,7 @@ public class PhotoActivity extends AppCompatActivity {
     static GridItem gridItem;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
 
@@ -64,7 +64,7 @@ public class PhotoActivity extends AppCompatActivity {
                 Log.println(Log.ASSERT, "file", "File moved");
 
                 new Thread(() -> {
-                    Image image = imageDao.getImageByPath(gridItem.getPathFile());
+                    final Image image = imageDao.getImageByPath(gridItem.getPathFile());
                     imageDao.delete(image);
                 }).start();
 
@@ -82,7 +82,7 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
             super.onBackPressed();
@@ -91,7 +91,7 @@ public class PhotoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String addFileToDirectory(String directory, String fileName) {
+    private String addFileToDirectory(final String directory, final String fileName) {
         return directory + "/" + fileName;
     }
 }

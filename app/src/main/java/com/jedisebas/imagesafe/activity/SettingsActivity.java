@@ -30,7 +30,7 @@ import java.util.List;
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
             super.onBackPressed();
@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
             final ListPreference listPreference = findPreference("theme");
@@ -107,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        private void deleteAccount(Object newValue) {
+        private void deleteAccount(final Object newValue) {
 
             final SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
             final String login = sessionPrefs.getString(getString(R.string.login_key), null);
@@ -132,18 +132,18 @@ public class SettingsActivity extends AppCompatActivity {
                     final User user = userDao.findByLogin(login);
                     final List<Image> imageList = imageDao.getImageByUserId(user.getId());
 
-                    for (Image image: imageList) {
+                    for (final Image image: imageList) {
                         try {
                             Files.delete(Paths.get(image.getFile()));
                             imageDao.delete(image);
-                        } catch (IOException e) {
+                        } catch (final IOException e) {
                             e.printStackTrace();
                         }
                     }
 
                     try {
                         Files.delete(Paths.get(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login));
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         e.printStackTrace();
                     }
 

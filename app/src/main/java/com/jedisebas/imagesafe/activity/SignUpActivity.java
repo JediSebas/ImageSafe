@@ -23,7 +23,7 @@ import java.io.File;
 public class SignUpActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -33,14 +33,14 @@ public class SignUpActivity extends AppCompatActivity {
         final Button signUpBtn = findViewById(R.id.signUpBtn);
         final ProgressBar progressBar = findViewById(R.id.loading);
 
-        SafeDatabase db = SafeDatabase.getInstance(this);
-        UserDao userDao = db.userDao();
+        final SafeDatabase db = SafeDatabase.getInstance(this);
+        final UserDao userDao = db.userDao();
 
         signUpBtn.setOnClickListener(view -> {
             progressBar.setVisibility(View.VISIBLE);
-            String login = loginEt.getText().toString().trim();
-            String password = passwordEt.getText().toString().trim();
-            String password2 = repeatEt.getText().toString().trim();
+            final String login = loginEt.getText().toString().trim();
+            final String password = passwordEt.getText().toString().trim();
+            final String password2 = repeatEt.getText().toString().trim();
             
             if (login.isEmpty() || password.isEmpty() || password2.isEmpty()) {
                 Toast.makeText(this, getString(R.string.not_all), Toast.LENGTH_SHORT).show();
@@ -49,12 +49,12 @@ public class SignUpActivity extends AppCompatActivity {
                 try {
 
                     new Thread(() -> {
-                        User newUser = new User(login, password);
-                        User user = userDao.findByLogin(login);
+                        final User newUser = new User(login, password);
+                        final User user = userDao.findByLogin(login);
 
                         if (user == null) {
                             userDao.insertAll(newUser);
-                            File myDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login);
+                            final File myDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login);
                             if (myDir.mkdir()) {
                                 Log.println(Log.ASSERT, "mkdir", "directory created");
                             }
@@ -67,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Log.println(Log.ASSERT, "all", String.valueOf(userDao.getAll()));
                     }).start();
 
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             } else {
@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         setTitle(getString(R.string.button_sign_up));
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
@@ -85,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
             super.onBackPressed();

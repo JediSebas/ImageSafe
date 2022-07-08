@@ -21,12 +21,12 @@ import java.util.List;
 
 public class GridViewAdapter extends ArrayAdapter<GridItem> {
 
-    public GridViewAdapter(@NonNull Context context, int resource, List<GridItem> gridItemList) {
+    public GridViewAdapter(@NonNull final Context context, final int resource, final List<GridItem> gridItemList) {
         super(context, resource, gridItemList);
     }
 
     @Override
-    public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
+    public View getView(final int position, @Nullable final View convertView, @Nullable final ViewGroup parent) {
 
         View view = convertView;
         final ViewHolder holder;

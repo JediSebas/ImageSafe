@@ -16,17 +16,17 @@ public interface UserDao {
     List<User> getAll();
 
     @Query("SELECT * FROM user WHERE login = :login")
-    User findByLogin(String login);
+    User findByLogin(final String login);
 
     @Query("SELECT id FROM user WHERE login = :login")
-    int findIdByLogin(String login);
+    int findIdByLogin(final String login);
 
     @Query("UPDATE User SET email = :email WHERE login = :login")
-    void updateEmail(String email, String login);
+    void updateEmail(final String email, final String login);
 
     @Insert
-    void insertAll(User... users);
+    void insertAll(final User... users);
 
     @Delete
-    void delete(User user);
+    void delete(final User user);
 }

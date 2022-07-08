@@ -19,17 +19,17 @@ public class Image {
     @ColumnInfo(name = "file")
     public String file;
 
-    public Image(int id, int userid, String file) {
+    public Image(final int id, final int userid, final String file) {
         this.id = id;
         this.userid = userid;
         this.file = file;
     }
 
-    public Image(int userid, String file) {
+    public Image(final int userid, final String file) {
         this(0, userid, file);
     }
 
-    public Image(Image image) {
+    public Image(final Image image) {
         this(image.id, image.userid, image.file);
     }
 
@@ -37,7 +37,7 @@ public class Image {
         this(0, null);
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -45,7 +45,7 @@ public class Image {
         return id;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(final int userid) {
         this.userid = userid;
     }
 
@@ -53,7 +53,7 @@ public class Image {
         return userid;
     }
 
-    public void setFile(String file) {
+    public void setFile(final String file) {
         this.file = file;
     }
 
@@ -72,7 +72,7 @@ public class Image {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }

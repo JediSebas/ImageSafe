@@ -8,12 +8,12 @@ public class GridItem {
     private Bitmap image;
     private String pathFile;
 
-    GridItem(Bitmap image, String pathFile) {
+    GridItem(final Bitmap image, final String pathFile) {
         this.image = image;
         this.pathFile = pathFile;
     }
 
-    GridItem(String pathFile) {
+    GridItem(final String pathFile) {
         this.pathFile = pathFile;
         image = BitmapFactory.decodeFile(pathFile);
     }
@@ -21,7 +21,7 @@ public class GridItem {
     GridItem() {
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(final Bitmap image) {
         this.image = image;
     }
 
@@ -29,7 +29,7 @@ public class GridItem {
         return image;
     }
 
-    public void setPathFile(String pathFile) {
+    public void setPathFile(final String pathFile) {
         this.pathFile = pathFile;
     }
 

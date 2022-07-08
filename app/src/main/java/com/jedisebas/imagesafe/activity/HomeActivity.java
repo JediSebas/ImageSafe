@@ -105,7 +105,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @SuppressLint("IntentReset")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeUtil(this);
         setContentView(R.layout.activity_home);
@@ -171,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         final int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
@@ -199,7 +199,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private String getDir(String login) {
+    private String getDir(final String login) {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/.secret_safe_" + login + "/";
     }
 }

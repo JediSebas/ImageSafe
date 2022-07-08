@@ -10,7 +10,7 @@ import java.nio.file.Files;
 
 public class XorCipher {
 
-    public int keyFromString(String key) {
+    public int keyFromString(final String key) {
         int newKey = 0;
 
         for (int i=0; i<key.length(); i++) {
@@ -20,7 +20,7 @@ public class XorCipher {
         return newKey;
     }
 
-    public byte[] getEncryptedByteArray(File file, int key) {
+    public byte[] getEncryptedByteArray(final File file, final int key) {
         try {
             final byte[] byteArray = Files.readAllBytes(file.toPath());
             final byte[] encryptedArray = new byte[byteArray.length];
@@ -30,13 +30,13 @@ public class XorCipher {
             }
 
             return encryptedArray;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         return new byte[0];
     }
 
-    public byte[] getEncryptedByteArray(File file, String key) {
+    public byte[] getEncryptedByteArray(final File file, final String key) {
         try {
             final int keyInt = keyFromString(key);
             final byte[] byteArray = Files.readAllBytes(file.toPath());
@@ -47,19 +47,19 @@ public class XorCipher {
             }
 
             return encryptedArray;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
 
         return new byte[0];
     }
 
-    public void writeFile(byte[] byteArray, File file) {
-        try(OutputStream os = new FileOutputStream(file)) {
+    public void writeFile(final byte[] byteArray, final File file) {
+        try(final OutputStream os = new FileOutputStream(file)) {
 
             os.write(byteArray);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Log.e("exception", String.valueOf(e));
         }
     }

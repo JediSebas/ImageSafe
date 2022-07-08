@@ -17,7 +17,7 @@ public class PathUtil {
     }
 
     @SuppressLint({"NewApi", "Recycle"})
-    public static String getPath(Context context, Uri uri) {
+    public static String getPath(final Context context, Uri uri) {
         String selection = null;
         String[] selectionArgs = null;
         // Uri is different in versions after KITKAT (Android 4.4), we need to
@@ -47,15 +47,15 @@ public class PathUtil {
             }
         }
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { DATA };
-            Cursor cursor;
+            final String[] projection = { DATA };
+            final Cursor cursor;
             try {
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
-                int columnIndex = cursor.getColumnIndexOrThrow(DATA);
+                final int columnIndex = cursor.getColumnIndexOrThrow(DATA);
                 if (cursor.moveToFirst()) {
                     return cursor.getString(columnIndex);
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
@@ -69,7 +69,7 @@ public class PathUtil {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
-    public static boolean isExternalStorageDocument(Uri uri) {
+    public static boolean isExternalStorageDocument(final Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
@@ -77,7 +77,7 @@ public class PathUtil {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
      */
-    public static boolean isDownloadsDocument(Uri uri) {
+    public static boolean isDownloadsDocument(final Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
@@ -85,7 +85,7 @@ public class PathUtil {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
-    public static boolean isMediaDocument(Uri uri) {
+    public static boolean isMediaDocument(final Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 }

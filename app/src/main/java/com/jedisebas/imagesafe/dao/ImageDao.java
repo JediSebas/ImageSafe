@@ -16,14 +16,14 @@ public interface ImageDao {
     List<Image> getAll();
 
     @Query("SELECT * FROM image WHERE userid = :userid")
-    List<Image> getImageByUserId(int userid);
+    List<Image> getImageByUserId(final int userid);
 
     @Query("SELECT * FROM image WHERE file = :pathFile")
-    Image getImageByPath(String pathFile);
+    Image getImageByPath(final String pathFile);
 
     @Insert
-    void insertAll(Image... images);
+    void insertAll(final Image... images);
 
     @Delete
-    void delete(Image image);
+    void delete(final Image image);
 }

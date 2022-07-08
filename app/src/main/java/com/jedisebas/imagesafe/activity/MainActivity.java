@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private String pass;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new ThemeUtil(this);
         setContentView(R.layout.activity_main);
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.println(Log.ASSERT, "all", String.valueOf(userDao.getAll()));
                     }).start();
 
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }
