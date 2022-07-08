@@ -33,21 +33,21 @@ public class RecoverActivity extends AppCompatActivity {
         final Button recoveryBtn = findViewById(R.id.recoveryBtn);
 
         recoveryBtn.setOnClickListener(view -> {
-            String login = loginEt.getText().toString().trim();
-            String email = emailEt.getText().toString().trim();
+            final String login = loginEt.getText().toString().trim();
+            final String email = emailEt.getText().toString().trim();
 
-            SafeDatabase db = SafeDatabase.getInstance(this);
-            UserDao userDao = db.userDao();
+            final SafeDatabase db = SafeDatabase.getInstance(this);
+            final UserDao userDao = db.userDao();
 
             new Thread(() -> {
-                User user = userDao.findByLogin(login);
+                final User user = userDao.findByLogin(login);
                 if (user.getEmail() != null && user.getEmail().equals(email)) {
 
-                    Intent intent = new Intent(this, MainActivity.class);
+                    final Intent intent = new Intent(this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+                    final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                             .setSmallIcon(R.drawable.ic_launcher_background)
                             .setContentTitle(getString(R.string.notification_title))
                             .setContentText(getString(R.string.notification_message, user.getPassword()))
@@ -57,7 +57,7 @@ public class RecoverActivity extends AppCompatActivity {
                             .setContentIntent(pendingIntent)
                             .setAutoCancel(true);
 
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+                    final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                     notificationManager.notify(1, builder.build());
 
                 } else {
@@ -70,12 +70,12 @@ public class RecoverActivity extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        CharSequence name = "R.string.channel_name";
-        String description = "R.string.channel_description";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+        final CharSequence name = "R.string.channel_name";
+        final String description = "R.string.channel_description";
+        final int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
         channel.setDescription(description);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        final NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
     }
 }

@@ -37,19 +37,19 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progressBar = findViewById(R.id.loading);
         final TextView signUp = findViewById(R.id.signUpTv);
         final TextView recover = findViewById(R.id.recoverTv);
-        SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        final SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         log = sessionPrefs.getString(getString(R.string.login_key), null);
         pass = sessionPrefs.getString(getString(R.string.password_key), null);
 
         signUp.getPaint().setUnderlineText(true);
 
-        SafeDatabase db = SafeDatabase.getInstance(this);
-        UserDao userDao = db.userDao();
+        final SafeDatabase db = SafeDatabase.getInstance(this);
+        final UserDao userDao = db.userDao();
 
         signInBtn.setOnClickListener(view -> {
             progressBar.setVisibility(View.VISIBLE);
-            String login = loginEt.getText().toString().trim();
-            String password = passwordEt.getText().toString().trim();
+            final String login = loginEt.getText().toString().trim();
+            final String password = passwordEt.getText().toString().trim();
 
             if (login.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, getText(R.string.not_all), Toast.LENGTH_SHORT).show();
@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
                 try {
 
                     new Thread(() -> {
-                        User user = userDao.findByLogin(login);
+                        final User user = userDao.findByLogin(login);
 
                         if (user != null && user.getPassword().equals(password)) {
                             runOnUiThread(() -> startActivity(new Intent(this, HomeActivity.class)));
 
-                            SharedPreferences.Editor editor = sessionPrefs.edit();
+                            final SharedPreferences.Editor editor = sessionPrefs.edit();
                             editor.putString(getString(R.string.login_key), login);
                             editor.putString(getString(R.string.password_key), password);
                             editor.putString(getString(R.string.email_key), user.getEmail());

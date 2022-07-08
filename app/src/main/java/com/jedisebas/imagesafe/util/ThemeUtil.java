@@ -10,8 +10,8 @@ import com.jedisebas.imagesafe.R;
 public class ThemeUtil {
 
     public ThemeUtil(Context context) {
-        SharedPreferences themePrefs = context.getSharedPreferences(context.getString(R.string.THEME_PREFS), Context.MODE_PRIVATE);
-        String theme = themePrefs.getString(context.getString(R.string.theme_key), "default");
+        final SharedPreferences themePrefs = context.getSharedPreferences(context.getString(R.string.THEME_PREFS), Context.MODE_PRIVATE);
+        final String theme = themePrefs.getString(context.getString(R.string.theme_key), "default");
 
         checkTheme(theme);
     }

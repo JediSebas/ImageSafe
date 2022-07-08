@@ -34,30 +34,30 @@ public class PhotoActivity extends AppCompatActivity {
         final ImageView imageView = findViewById(R.id.photoIv);
         final Button removeBtn = findViewById(R.id.removeBtn);
 
-        SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        String password = sessionPrefs.getString(getString(R.string.password_key), null);
+        final SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        final String password = sessionPrefs.getString(getString(R.string.password_key), null);
 
-        SafeDatabase db = SafeDatabase.getInstance(this);
-        ImageDao imageDao = db.imageDao();
+        final SafeDatabase db = SafeDatabase.getInstance(this);
+        final ImageDao imageDao = db.imageDao();
 
-        XorCipher xor = new XorCipher();
-        File file = new File(gridItem.getPathFile());
-        byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
+        final XorCipher xor = new XorCipher();
+        final File file = new File(gridItem.getPathFile());
+        final byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
 
         imageView.setImageBitmap(BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length));
 
         removeBtn.setOnClickListener(view -> {
-            String root = Environment.getExternalStorageDirectory() + "/DCIM/OutOfSafe";
+            final String root = Environment.getExternalStorageDirectory() + "/DCIM/OutOfSafe";
 
-            File newDir = new File(root);
+            final File newDir = new File(root);
             if (newDir.mkdir()) {
                 Log.println(Log.ASSERT, "mkdir", "directory created");
             }
 
-            File firstFile = new File(gridItem.getPathFile());
-            File secondFile = new File(addFileToDirectory(root, firstFile.getName()));
+            final File firstFile = new File(gridItem.getPathFile());
+            final File secondFile = new File(addFileToDirectory(root, firstFile.getName()));
 
-            byte[] encryptedByteArrayTwo = xor.getEncryptedByteArray(firstFile, password);
+            final byte[] encryptedByteArrayTwo = xor.getEncryptedByteArray(firstFile, password);
             xor.writeFile(encryptedByteArrayTwo, firstFile);
 
             if (firstFile.renameTo(secondFile)) {
@@ -74,7 +74,7 @@ public class PhotoActivity extends AppCompatActivity {
             }
         });
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);

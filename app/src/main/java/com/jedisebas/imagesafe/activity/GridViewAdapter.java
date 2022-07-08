@@ -29,7 +29,7 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
 
         View view = convertView;
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
@@ -40,14 +40,14 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
             holder = (ViewHolder) view.getTag();
         }
 
-        SharedPreferences sessionPrefs = getContext().getSharedPreferences(getContext().getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        String password = sessionPrefs.getString(getContext().getString(R.string.password_key), null);
+        final SharedPreferences sessionPrefs = getContext().getSharedPreferences(getContext().getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        final String password = sessionPrefs.getString(getContext().getString(R.string.password_key), null);
 
-        GridItem gridItem = getItem(position);
+        final GridItem gridItem = getItem(position);
 
-        XorCipher xor = new XorCipher();
-        File file = new File(gridItem.getPathFile());
-        byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
+        final XorCipher xor = new XorCipher();
+        final File file = new File(gridItem.getPathFile());
+        final byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
 
         holder.imageView.setImageBitmap(Bitmap.createScaledBitmap(
                 BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length),

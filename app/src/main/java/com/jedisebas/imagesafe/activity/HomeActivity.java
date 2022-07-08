@@ -51,12 +51,12 @@ public class HomeActivity extends AppCompatActivity {
     final ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
+                    final Intent data = result.getData();
                     // Handle the Intent
-                    List<Uri> uris = new ArrayList<>();
+                    final List<Uri> uris = new ArrayList<>();
 
                     if (data != null) {
-                        ClipData clipData = data.getClipData();
+                        final ClipData clipData = data.getClipData();
 
                         if (clipData != null) {
                             //multiple images selected
@@ -70,23 +70,23 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                     for (int i = 0; i < uris.size(); i++) {
-                        String pathFile = PathUtil.getPath(getBaseContext(), uris.get(i));
+                        final String pathFile = PathUtil.getPath(getBaseContext(), uris.get(i));
                         if (pathFile != null) {
-                            File firstFile = new File(pathFile);
+                            final File firstFile = new File(pathFile);
 
-                            String newPathFile = getDir(login) + firstFile.getName();
+                            final String newPathFile = getDir(login) + firstFile.getName();
 
-                            File secondFile = new File(newPathFile);
+                            final File secondFile = new File(newPathFile);
 
-                            XorCipher xor = new XorCipher();
-                            byte[] encryptedByteArray = xor.getEncryptedByteArray(firstFile, password);
+                            final XorCipher xor = new XorCipher();
+                            final byte[] encryptedByteArray = xor.getEncryptedByteArray(firstFile, password);
                             xor.writeFile(encryptedByteArray, firstFile);
 
                             if (firstFile.renameTo(secondFile)) {
                                 Log.println(Log.ASSERT, "file", "File moved");
 
                                 new Thread(() -> {
-                                    int id = userDao.findIdByLogin(login);
+                                    final int id = userDao.findIdByLogin(login);
                                     imageDao.insertAll(new Image(id, newPathFile));
                                 }).start();
 
@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
         login = sessionPrefs.getString(getString(R.string.login_key), null);
         password = sessionPrefs.getString(getString(R.string.password_key), null);
 
-        SafeDatabase db = SafeDatabase.getInstance(this);
+        final SafeDatabase db = SafeDatabase.getInstance(this);
         userDao = db.userDao();
         imageDao = db.imageDao();
 
@@ -133,15 +133,15 @@ public class HomeActivity extends AppCompatActivity {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 checkPermission();
             } else {
-                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                final Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 getIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 getIntent.setType("image/*");
 
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                final Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 pickIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 pickIntent.setType("image/*");
 
-                Intent chooserIntent = Intent.createChooser(getIntent, getString(R.string.select_image));
+                final Intent chooserIntent = Intent.createChooser(getIntent, getString(R.string.select_image));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
                 mStartForResult.launch(chooserIntent);
@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
 
         logoutBtn.setOnClickListener(view -> {
 
-            SharedPreferences.Editor editor = sessionPrefs.edit();
+            final SharedPreferences.Editor editor = sessionPrefs.edit();
             editor.clear();
             editor.apply();
 
@@ -172,7 +172,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        final int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
@@ -189,8 +189,8 @@ public class HomeActivity extends AppCompatActivity {
     private void checkPermission() {
         if (SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                final Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                final Uri uri = Uri.fromParts("package", getPackageName(), null);
                 intent.setData(uri);
                 startActivity(intent);
             } else {

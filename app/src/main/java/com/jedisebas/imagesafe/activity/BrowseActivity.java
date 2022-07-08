@@ -32,22 +32,22 @@ public class BrowseActivity extends AppCompatActivity {
         final GridView gridView = findViewById(R.id.gridLayout);
         final ProgressBar loading = findViewById(R.id.loadingBrowse);
 
-        SafeDatabase db = SafeDatabase.getInstance(this);
-        UserDao userDao = db.userDao();
-        ImageDao imageDao = db.imageDao();
+        final SafeDatabase db = SafeDatabase.getInstance(this);
+        final UserDao userDao = db.userDao();
+        final ImageDao imageDao = db.imageDao();
 
-        SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        String login = sessionPrefs.getString(getString(R.string.login_key), null);
+        final SharedPreferences sessionPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        final String login = sessionPrefs.getString(getString(R.string.login_key), null);
 
-        List<GridItem> gridItemList = new ArrayList<>();
+        final List<GridItem> gridItemList = new ArrayList<>();
 
         new Thread(() -> {
-            int id = userDao.findIdByLogin(login);
-            List<Image> imageList = imageDao.getImageByUserId(id);
+            final int id = userDao.findIdByLogin(login);
+            final List<Image> imageList = imageDao.getImageByUserId(id);
 
             for (int i = 0; i < imageList.size(); i++) {
-                String pathFile = imageList.get(i).getFile();
-                File file = new File(pathFile);
+                final String pathFile = imageList.get(i).getFile();
+                final File file = new File(pathFile);
                 if (file.exists()) {
                     gridItemList.add(new GridItem(pathFile));
                 } else {
@@ -56,7 +56,7 @@ public class BrowseActivity extends AppCompatActivity {
             }
 
             runOnUiThread(() -> {
-                GridViewAdapter adapter = new GridViewAdapter(this, 0, gridItemList);
+                final GridViewAdapter adapter = new GridViewAdapter(this, 0, gridItemList);
                 gridView.setAdapter(adapter);
                 loading.setVisibility(View.GONE);
             });
@@ -68,7 +68,7 @@ public class BrowseActivity extends AppCompatActivity {
         });
 
         setTitle(getString(R.string.browse));
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);

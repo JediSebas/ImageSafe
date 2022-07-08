@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -60,15 +60,15 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-            ListPreference listPreference = findPreference("theme");
-            EditTextPreference editTextPreference = findPreference("account_delete");
-            EditTextPreference recoveryPreference = findPreference("recovery");
+            final ListPreference listPreference = findPreference("theme");
+            final EditTextPreference editTextPreference = findPreference("account_delete");
+            final EditTextPreference recoveryPreference = findPreference("recovery");
 
             if (listPreference != null) {
                 listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
 
-                    SharedPreferences themePrefs = requireContext().getSharedPreferences(getString(R.string.THEME_PREFS), Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = themePrefs.edit();
+                    final SharedPreferences themePrefs = requireContext().getSharedPreferences(getString(R.string.THEME_PREFS), Context.MODE_PRIVATE);
+                    final SharedPreferences.Editor editor = themePrefs.edit();
                     editor.putString(getString(R.string.theme_key), String.valueOf(newValue));
                     editor.apply();
 
@@ -88,17 +88,17 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (recoveryPreference != null) {
 
-                SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                final SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
                 recoveryPreference.setText(sessionPrefs.getString(getString(R.string.email_key), ""));
 
                 recoveryPreference.setOnPreferenceChangeListener((preference, newValue) -> {
 
-                    SafeDatabase db = SafeDatabase.getInstance(requireContext());
-                    UserDao userDao = db.userDao();
+                    final SafeDatabase db = SafeDatabase.getInstance(requireContext());
+                    final UserDao userDao = db.userDao();
 
                     new Thread(() -> userDao.updateEmail(String.valueOf(newValue), sessionPrefs.getString(getString(R.string.login_key), null))).start();
 
-                    SharedPreferences.Editor editor = sessionPrefs.edit();
+                    final SharedPreferences.Editor editor = sessionPrefs.edit();
                     editor.putString(getString(R.string.email_key), String.valueOf(newValue));
                     editor.apply();
 
@@ -109,18 +109,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         private void deleteAccount(Object newValue) {
 
-            SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-            String login = sessionPrefs.getString(getString(R.string.login_key), null);
-            String password = sessionPrefs.getString(getString(R.string.password_key), null);
+            final SharedPreferences sessionPrefs = requireContext().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+            final String login = sessionPrefs.getString(getString(R.string.login_key), null);
+            final String password = sessionPrefs.getString(getString(R.string.password_key), null);
 
-            SafeDatabase db = SafeDatabase.getInstance(requireContext());
-            UserDao userDao = db.userDao();
-            ImageDao imageDao = db.imageDao();
+            final SafeDatabase db = SafeDatabase.getInstance(requireContext());
+            final UserDao userDao = db.userDao();
+            final ImageDao imageDao = db.imageDao();
 
             if (password.equals(newValue)) {
                 Toast.makeText(requireContext(), getString(R.string.deleting), Toast.LENGTH_LONG).show();
 
-                SharedPreferences.Editor editor = sessionPrefs.edit();
+                final SharedPreferences.Editor editor = sessionPrefs.edit();
                 editor.clear();
                 editor.apply();
 
@@ -129,8 +129,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 sessionPrefs.getString(getString(R.string.password_key), null));
 
                 new Thread(() -> {
-                    User user = userDao.findByLogin(login);
-                    List<Image> imageList = imageDao.getImageByUserId(user.getId());
+                    final User user = userDao.findByLogin(login);
+                    final List<Image> imageList = imageDao.getImageByUserId(user.getId());
 
                     for (Image image: imageList) {
                         try {

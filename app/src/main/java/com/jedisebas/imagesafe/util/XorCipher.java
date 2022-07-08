@@ -22,8 +22,8 @@ public class XorCipher {
 
     public byte[] getEncryptedByteArray(File file, int key) {
         try {
-            byte[] byteArray = Files.readAllBytes(file.toPath());
-            byte[] encryptedArray = new byte[byteArray.length];
+            final byte[] byteArray = Files.readAllBytes(file.toPath());
+            final byte[] encryptedArray = new byte[byteArray.length];
 
             for (int i=0; i<byteArray.length; i++) {
                 encryptedArray[i] = (byte) (byteArray[i] ^ key);
@@ -38,9 +38,9 @@ public class XorCipher {
 
     public byte[] getEncryptedByteArray(File file, String key) {
         try {
-            int keyInt = keyFromString(key);
-            byte[] byteArray = Files.readAllBytes(file.toPath());
-            byte[] encryptedArray = new byte[byteArray.length];
+            final int keyInt = keyFromString(key);
+            final byte[] byteArray = Files.readAllBytes(file.toPath());
+            final byte[] encryptedArray = new byte[byteArray.length];
 
             for (int i=0; i<byteArray.length; i++) {
                 encryptedArray[i] = (byte) (byteArray[i] ^ keyInt);
