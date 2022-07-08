@@ -21,42 +21,47 @@ import java.util.List;
 
 public class GridViewAdapter extends ArrayAdapter<GridItem> {
 
+    private final String password;
+
     public GridViewAdapter(@NonNull final Context context, final int resource, final List<GridItem> gridItemList) {
         super(context, resource, gridItemList);
+        final SharedPreferences sessionPrefs = getContext().getSharedPreferences(getContext().getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        password = sessionPrefs.getString(getContext().getString(R.string.password_key), null);
     }
 
     @Override
-    public View getView(final int position, @Nullable final View convertView, @Nullable final ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @Nullable final ViewGroup parent) {
 
-        View view = convertView;
         final ViewHolder holder;
 
-        if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
-            holder = new ViewHolder();
-            holder.imageView = view.findViewById(R.id.gridImage);
-            view.setTag(holder);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.grid_item, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) view.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        final SharedPreferences sessionPrefs = getContext().getSharedPreferences(getContext().getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        final String password = sessionPrefs.getString(getContext().getString(R.string.password_key), null);
-
-        final GridItem gridItem = getItem(position);
-
         final XorCipher xor = new XorCipher();
-        final File file = new File(gridItem.getPathFile());
+        final File file = new File(getItem(position).getPathFile());
         final byte[] encryptedByteArray = xor.getEncryptedByteArray(file, password);
 
         holder.imageView.setImageBitmap(Bitmap.createScaledBitmap(
                 BitmapFactory.decodeByteArray(encryptedByteArray, 0, encryptedByteArray.length),
                 240, 240, false));
 
-        return view;
+        return convertView;
     }
 
-    static class ViewHolder {
-        ImageView imageView;
+    private static class ViewHolder {
+        final ImageView imageView;
+
+        private ViewHolder(final ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        private ViewHolder(final View view) {
+            this(view.findViewById(R.id.gridImage));
+        }
     }
 }

@@ -14,11 +14,11 @@ public class GridItem {
     }
 
     GridItem(final String pathFile) {
-        this.pathFile = pathFile;
-        image = BitmapFactory.decodeFile(pathFile);
+        this(BitmapFactory.decodeFile(pathFile), pathFile);
     }
 
     GridItem() {
+        this(null, null);
     }
 
     public void setImage(final Bitmap image) {
